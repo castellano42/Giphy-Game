@@ -1,7 +1,7 @@
 $(document).ready(function(){
 
-var topics = ["Kobe Bryant", "Chauncey Billups", "Kevin Garnett", "Pau Gasol", "Larry Bird", "Magic Johnson",
- 				"Wilt Chamberlain", "Derek Fisher", "Lebron James", "James Worthy", "Shaq", "Michael Jordan" ]
+var topics = ["Kobe Bryant", "Chauncey Billups", "Kevin Garnett", "Pau Gasol", "Larry Bird", "Magic Johnson", 
+ 				"Wilt Chamberlain", "Derek Fisher", "Lebron James", "James Worthy", "shaquille o'neal", "Michael Jordan" ]
 
 function setup(){
 	$("#add-category-btn").click(function(){
@@ -32,14 +32,39 @@ $("#toppic-buttons button").on("click", function(){
 			var gifDiv = $("<div class='giphs'>");
 			var rating = results[x].rating;
 			var p = $("<p>").text("Rating: " + rating);
-			var topicGifs = $("<img>");
+			var animated = results[x].images.fixed_width.url;
+			var still = results[x].images.fixed_width_still.url
 			window.temp = results; 
-			topicGifs.attr("src", results[x].images.fixed_width.url);
+			var topicGifs = $("<img class=image-holder>");
+			topicGifs.attr("src", animated);
+			topicGifs.attr("src", still);
+			topicGifs.attr("data-still", still);
+			topicGifs.attr("data-animate", animated);
+			topicGifs.attr("data-state", "still");
 			gifDiv.prepend(p);
 			gifDiv.prepend(topicGifs);
 			$("#gifs-appear").prepend(gifDiv);
 		}
 	});
+
+	$(document).on("click", ".image-holder", function(){
+
+        var state = $(this).attr("data-state");
+
+        if (state === "still"){
+            $(this).attr("src", $(this).attr("data-animate"));
+            $(this).attr("data-state", "animate");
+        }
+        else {
+            $(this).attr("src", $(this).attr("data-still"));
+            $(this).attr("data-state", "still");
+        }
+    });
+	// $(document).on("click",topicGifs, funtion(){
+	// 	 var state = $(this).attr("data-state");
+
+	// 	if()
+	// }
 })
 
 }
